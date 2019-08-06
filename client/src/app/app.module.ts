@@ -14,12 +14,18 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { HomeComponent } from './home/home.component';
+import { ClientComponent } from './client/client.component';
+import { ClienttransactionsComponent } from './clienttransactions/clienttransactions.component';
+import { BrokertransactionsComponent } from './brokertransactions/brokertransactions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
+    ClientComponent,
+    ClienttransactionsComponent,
+    BrokertransactionsComponent,
     ],
   imports: [
     BrowserModule,

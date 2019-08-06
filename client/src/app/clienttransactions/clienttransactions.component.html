@@ -1,0 +1,23 @@
+<br>
+<br>
+<div class="row">
+  <div class="col-md-3" *ngFor = "let transaction of transactions">
+    <div class="card">
+      <div class="card-header">
+        {{transaction.type}}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><b>Broker: </b> {{transaction.broker}}</h5>
+        <p class="card-text">
+          <b>Status: </b> {{transaction.status}}
+        </p>
+        <p class="card-text">
+          <b>Amount: </b> {{transaction.amount}}
+        </p>
+        <p class="card-text">
+            <b>Date: </b> {{transaction.date.seconds * 1000 | date:'dd-MM-yyyy h:mm:ss a' }}
+          </p>
+      </div>
+    </div>
+  </div>
+</div>

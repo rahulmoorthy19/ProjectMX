@@ -1,0 +1,52 @@
+<br>
+<br>
+<h1 style="font-size: 10vh; text-align: center"> Buy/Sell Stocks </h1>
+<div id="main" class="container mt-5">
+  <div *ngIf = "errmsg" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <span class="alert-inner--icon"><i class="ni ni-like-2"></i></span>
+    <span class="alert-inner--text"><strong>Danger!</strong> {{ errmsg }}</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true" (click) = "errmsg = undefined">&times;</span>
+    </button>
+  </div>
+  <h4 style="text-align: center"> Current Stocks : {{ user.stock_balance }} </h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-2">
+          <div class="custom-control custom-radio mb-3">
+            <input name="custom-radio-1" class="custom-control-input" id="buy" [(ngModel)] = "type" value="Buy" checked="" type="radio">
+            <label class="custom-control-label" for="buy"><h5>Buy</h5></label>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="custom-control custom-radio mb-3">
+            <input name="custom-radio-1" class="custom-control-input" id="sell" [(ngModel)] = "type" value="Sell" checked="" type="radio">
+            <label class="custom-control-label" for="sell"><h5>Sell</h5></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row ml-3">
+              <h3 class="col-md-6">Select Broker</h3>
+              <select class="form-control col-md-6" [(ngModel)] = "brok" placeholder="Broker">
+                  <option *ngFor ="let broker of brokers">{{broker.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="number" placeholder="Amount" class="form-control" [(ngModel)] = "amount"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="text-center" *ngIf = "type">
+          <button type="button" (click) = "onSubmit()" class="btn btn-primary my-4">{{type}}</button>
+        </div>
+      </div>
+</div>

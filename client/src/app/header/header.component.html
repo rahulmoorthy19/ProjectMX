@@ -22,11 +22,21 @@
           </div>
 
           <ul class="navbar-nav ml-lg-auto">
-              <li class="nav-item">
+                <li class="nav-item">
                   <a class="nav-link nav-link-icon" routerLink = "/home">
                       <span class="nav-link-inner--text">Home</span>
                   </a>
-              </li>
+                </li>
+                <li class="nav-item" *ngIf = "usern">
+                    <a class="nav-link nav-link-icon" routerLink = "/client">
+                        <span class="nav-link-inner--text">Buy/Sell</span>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf = "usern">
+                        <a class="nav-link nav-link-icon" routerLink = "/mytransactions">
+                            <span class="nav-link-inner--text">My Transactions</span>
+                        </a>
+                </li>
               <li class="nav-item" *ngIf="!usern">
                 <a class="nav-link nav-link-icon" >
                     <span class="nav-link-inner--text" data-toggle="modal" data-target="#modal-form">Login</span>
@@ -55,18 +65,9 @@
       <div class="modal-body p-0">
         <div class="card bg-secondary shadow border-0">
             <div class="card-header bg-white pb-5">
-                <div class="text-muted text-center mb-3"><small>Sign in with</small></div>
-                <div class="btn-wrapper text-center">
-                    <button class="btn btn-neutral btn-icon" data-toggle="modal" data-target="#modal-form" (click) = "googleLogin()">
-                        <span class="btn-inner--icon"><img src="../../assets/img/icons/common/google.svg"></span>
-                        <span class="btn-inner--text">Google</span>
-                    </button>
-                </div>
+                <div class="text-muted text-center mb-3"><h2>Sign in with</h2></div>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-                <div class="text-center text-muted mb-4">
-                    <small>Or sign in with credentials</small>
-                </div>
                 <form role="form" novalidate #loginForm="ngForm" (ngSubmit) = "onSubmitlogin()">
                     <div class="form-group mb-3">
                         <div class="input-group input-group-alternative">
