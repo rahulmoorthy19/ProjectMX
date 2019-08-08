@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyA1JS_lUMg7fbkxA5G0sY4nqXB22ZGJnG4",
-    authDomain: "fir-dc72d.firebaseapp.com",
-    databaseURL: "https://fir-dc72d.firebaseio.com",
-    projectId: "fir-dc72d",
-    storageBucket: "fir-dc72d.appspot.com",
-    messagingSenderId: "434879216575",
-    appId: "1:434879216575:web:7186c806fc2a837d"
+    apiKey: "AIzaSyCZm2Yl7UNwDQ2MuW1-KtzRmnw0kjK__zY",
+    authDomain: "american-express-c9e90.firebaseapp.com",
+    databaseURL: "https://american-express-c9e90.firebaseio.com",
+    projectId: "american-express-c9e90",
+    storageBucket: "american-express-c9e90.appspot.com",
+    messagingSenderId: "1055021338198",
+    appId: "1:1055021338198:web:eec0415227ad7fc7"
   }
 };
 /*

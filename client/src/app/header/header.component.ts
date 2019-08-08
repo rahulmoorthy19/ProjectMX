@@ -11,7 +11,7 @@ import { UserService } from '../services/userservice.service'
 })
 export class HeaderComponent implements OnInit {
   user = {username: '', password: ''};
-  user1 = {username: '', password: '', name: '',bank_name: '', stock_balance: 0};
+  user1 = {username: '', password: '', name: '',bank_name: '', stock_balance: 0, id: ''};
   users : User;
   user_category: string;
   username : string;
@@ -43,6 +43,17 @@ export class HeaderComponent implements OnInit {
     this.authService.logIn(this.user)
   }
   onSubmitsign() {
+    var val = Math.floor(1000 + Math.random() * 9000);
+    console.log(val);
+    if(this.user_category == "Client")
+    {
+      this.user1.id = "CLI" + val.toString();
+    }
+    else if(this.user_category == "Broker")
+    {
+      this.user1.id = "BRK" + val.toString();
+    }
+    console.log(this.user1.id);
     this.authService.signUp(this.user1, this.user_category);
   }
   googleLogin() {

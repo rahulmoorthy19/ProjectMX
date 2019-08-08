@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { ClientComponent } from './client/client.component';
 import { ClienttransactionsComponent } from './clienttransactions/clienttransactions.component';
 import { BrokertransactionsComponent } from './brokertransactions/brokertransactions.component';
+import { baseURL } from './shared/baseurl';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,9 @@ import { BrokertransactionsComponent } from './brokertransactions/brokertransact
     DateInputsModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    {provide: 'baseURL', useValue: baseURL},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
