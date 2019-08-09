@@ -8,6 +8,8 @@ import time
 import random
 import matplotlib.pyplot as plt
 from datetime import datetime
+import schedule
+
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "config.json"
 cred = credentials.Certificate("config.json")
@@ -227,10 +229,18 @@ def front_runner_detector(transaction_data):
         trans_fraud=store.collection(u'executed')
         for i in list(front_runner_transactions):
             trans_fraud.document(u''+str(i)).set({u'blacklist':True},merge=True)
-doc_ref = store.collection(u'executed')
-transaction_data = []
-docs = doc_ref.stream()
-for doc in docs:
-    dic=doc.to_dict()
-    transaction_data.append(dic)
-front_runner_detector(transaction_data)
+
+def front_runner_model():
+    doc_ref = store.collection(u'executed')
+    transaction_data = []
+    docs = doc_ref.stream()
+    for doc in docs:
+        dic=doc.to_dict()
+        transaction_data.append(dic)
+    front_runner_detector(transaction_data)
+
+
+schedule.every(30).seconds.do(front_runner_model)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
