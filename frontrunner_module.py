@@ -20,6 +20,8 @@ doc = doc_ref.get()
 doc=doc.to_dict()
 time_threshold=int(doc["threshold_time"])
 profitthreshold=int(doc["threshold_profit"])
+print(time_threshold)
+print(profitthreshold)
 def front_runner_detector(transaction_data):
     transactions=pd.DataFrame.from_records(transaction_data)
     for index,row in transactions.iterrows():
@@ -31,7 +33,8 @@ def front_runner_detector(transaction_data):
         transactions.loc[i,"time_stamp"]-=first_time
     stocks=transactions.product_id.unique()
     front_runner_transactions=list()
-    front_runner_transactions_images=list()
+    front_runner_transactions_images=dict()
+    front_runner_brokers=list()
     for product in stocks:
         product_wise=pd.DataFrame(transactions.loc[transactions["product_id"]==product])
         client_list=product_wise.client_id.unique()
@@ -92,11 +95,13 @@ def front_runner_detector(transaction_data):
                     #p3prev = executed_transactions.iloc[j]["quantity"]
                     p3orderID = executed_transactions.iloc[j]["order_id"]
                     p3y = executed_transactions.iloc[j]["price"]
+                    front_runner=executed_transactions.iloc[j]["broker_id"]
                     j += 1
             profit=p3money-p1money
             if(flag==3 and (p3time-p1time).total_seconds()<=time_threshold and profit>=profitthreshold):
                 front_runner_transactions.append(p1orderID)
                 front_runner_transactions.append(p3orderID)
+                front_runner_brokers.append(front_runner)
                 buyp1x.append(p1time)
                 buyp3x.append(p3time)
                 buyc2x.append(c2x)
@@ -113,7 +118,7 @@ def front_runner_detector(transaction_data):
                 imageBlob = bucket.blob("graphs/"+image_name)
                 imageBlob.upload_from_filename(image_name)
                 imageBlob.make_public()
-                front_runner_transactions_images.append(imageBlob.public_url)
+                front_runner_transactions_images[front_runner]=imageBlob.public_url
             if(flag==0):
                 j=tempj+1
         j = 0
@@ -172,11 +177,13 @@ def front_runner_detector(transaction_data):
                     #p3prev = executed_transactions.iloc[j]["quantity"]
                     p3orderID = executed_transactions.iloc[j]["order_id"]
                     p3y = executed_transactions.iloc[j]["price"]
+                    front_runner=executed_transactions.iloc[j]["broker_id"]
                     j += 1
             profit = p1money - p3money
             if (flag == 3 and (p3time - p1time).total_seconds()<= p1p3timeThreshold and profit >= profitThreshold):
                 front_runner_transactions.append(p1orderID)
                 front_runner_transactions.append(p3orderID)
+                front_runner_brokers.append(front_runner)
                 sellp1x.append(p1time)
                 sellp3x.append(p3time)
                 sellc2x.append(c2x)
@@ -193,13 +200,13 @@ def front_runner_detector(transaction_data):
                 imageBlob = bucket.blob("graphs/"+image_name)
                 imageBlob.upload_from_filename(image_name)
                 imageBlob.make_public()
-                front_runner_transactions_images.append(imageBlob.public_url)
+                front_runner_transactions_images[front_runner]=imageBlob.public_url
                 #print(profit)
             if (flag == 0):
                 j = tempj + 1
     fradulent_ref = store.collection(u'admin').document(u'NFZ8AWNon3nEZVwLPgdq')
     if(len(front_runner_transactions)>0):
-        fradulent_ref.set({u'blacklist_id': list(front_runner_transactions),u'blacklist_graph_id':list(front_runner_transactions_images)}, merge=True)
+        fradulent_ref.set({u'blacklist_id': list(front_runner_transactions),u'blacklist_graph_id':front_runner_transactions_images,u'blacklist_brokers':list(front_runner_brokers)}, merge=True)
         trans_fraud=store.collection(u'executed')
         for i in list(front_runner_transactions):
             trans_fraud.document(u''+str(i)).set({u'blacklist':True},merge=True)
