@@ -20,8 +20,6 @@ doc = doc_ref.get()
 doc=doc.to_dict()
 time_threshold=int(doc["threshold_time"])
 profitthreshold=int(doc["threshold_profit"])
-print(time_threshold)
-print(profitthreshold)
 def front_runner_detector(transaction_data):
     transactions=pd.DataFrame.from_records(transaction_data)
     for index,row in transactions.iterrows():
@@ -213,9 +211,19 @@ def front_runner_detector(transaction_data):
     blacklist_ref=store.collection(u'blacklist')
     if(len(front_runner_transactions)>0):
         fradulent_ref.set({u'blacklist_id': list(front_runner_transactions)}, merge=True)
-        print(front_runner_transactions_images)
         for key,value in front_runner_transactions_images.items():
-            blacklist_ref.document(str(key)).set({u'graphs':value},merge=True)
+            check={}
+            test=blacklist_ref.document(str(key)).get().exists
+            if test==True:
+                prev=blacklist_ref.document(str(key))
+                prev_new=prev.get()
+                prev_new=prev_new.to_dict()
+                prev_present=prev_new["graphs"]
+                for i in value:
+                    prev_present.append(i)
+            else:
+                prev_present=value
+            blacklist_ref.document(str(key)).set({u'graphs':prev_present},merge=True)
         trans_fraud=store.collection(u'executed')
         for i in list(front_runner_transactions):
             trans_fraud.document(u''+str(i)).set({u'blacklist':True},merge=True)
