@@ -101,7 +101,7 @@ def front_runner_detector(transaction_data):
             if(flag==3 and (p3time-p1time).total_seconds()<=time_threshold and profit>=profitthreshold):
                 front_runner_transactions.append(p1orderID)
                 front_runner_transactions.append(p3orderID)
-                front_runner_brokers.append(front_runner)
+                #front_runner_brokers.append(front_runner)
                 buyp1x.append(p1time)
                 buyp3x.append(p3time)
                 buyc2x.append(c2x)
@@ -118,7 +118,9 @@ def front_runner_detector(transaction_data):
                 imageBlob = bucket.blob("graphs/"+image_name)
                 imageBlob.upload_from_filename(image_name)
                 imageBlob.make_public()
-                front_runner_transactions_images[front_runner]=imageBlob.public_url
+                if front_runner not in front_runner_transactions_images.keys():
+                    front_runner_transactions_images[front_runner]=[]
+                front_runner_transactions_images[front_runner].append(imageBlob.public_url)
             if(flag==0):
                 j=tempj+1
         j = 0
@@ -183,7 +185,7 @@ def front_runner_detector(transaction_data):
             if (flag == 3 and (p3time - p1time).total_seconds()<= p1p3timeThreshold and profit >= profitThreshold):
                 front_runner_transactions.append(p1orderID)
                 front_runner_transactions.append(p3orderID)
-                front_runner_brokers.append(front_runner)
+                #front_runner_brokers.append(front_runner)
                 sellp1x.append(p1time)
                 sellp3x.append(p3time)
                 sellc2x.append(c2x)
@@ -200,13 +202,20 @@ def front_runner_detector(transaction_data):
                 imageBlob = bucket.blob("graphs/"+image_name)
                 imageBlob.upload_from_filename(image_name)
                 imageBlob.make_public()
-                front_runner_transactions_images[front_runner]=imageBlob.public_url
+                #front_runner_transactions_images[front_runner]=imageBlob.public_url
+                if front_runner not in front_runner_transactions_images.keys():
+                    front_runner_transactions_images[front_runner]=[]
+                front_runner_transactions_images[front_runner].append(imageBlob.public_url)
                 #print(profit)
             if (flag == 0):
                 j = tempj + 1
     fradulent_ref = store.collection(u'admin').document(u'NFZ8AWNon3nEZVwLPgdq')
+    blacklist_ref=store.collection(u'blacklist')
     if(len(front_runner_transactions)>0):
-        fradulent_ref.set({u'blacklist_id': list(front_runner_transactions),u'blacklist_graph_id':front_runner_transactions_images,u'blacklist_brokers':list(front_runner_brokers)}, merge=True)
+        fradulent_ref.set({u'blacklist_id': list(front_runner_transactions)}, merge=True)
+        print(front_runner_transactions_images)
+        for key,value in front_runner_transactions_images.items():
+            blacklist_ref.document(str(key)).set({u'graphs':value},merge=True)
         trans_fraud=store.collection(u'executed')
         for i in list(front_runner_transactions):
             trans_fraud.document(u''+str(i)).set({u'blacklist':True},merge=True)
