@@ -4,6 +4,9 @@ import * as firebase from 'firebase/app';
 import { User } from '../shared/user';
 import { from } from 'rxjs';
 import { UserService } from '../services/userservice.service'
+import { BrokerService } from '../services/broker.service';
+import { AdminService } from '../services/admin.service';
+import { ClientService } from '../services/client.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,27 +17,57 @@ export class HeaderComponent implements OnInit {
   user1 = {username: '', password: '', name: '',bank_name: '', stock_balance: 0, id: ''};
   users : User;
   user_category: string;
+  user_type: string = undefined;
   username : string;
   userna : string;
+  userss: any;
   usern : boolean = false;
   userid: string;
   errMess: string;
   category: string;
-  constructor(private authService: AuthService, private userservice: UserService) { }
+  userId: string;
+  constructor(private authService: AuthService, private brokerservice: BrokerService, private adminservice: AdminService,private clientservice: ClientService) { }
 
   ngOnInit() {
     this.authService.getAuthState()
         .subscribe((user) => {
         if (user) {
           // User is signed in.
+          this.userId = user.uid;
           this.username = user.displayName ? user.displayName : user.email;
           this.userna = this.username;
           this.usern = true;
-          // alert('Welcome ' + this.username);
+          this.clientservice.getClient()
+          .subscribe(client => {
+            if(client.id)
+            {
+                this.userss = client;
+                this.user_type = "Client";
+            }
+            else
+            {
+              this.adminservice.getAdmin()
+              .subscribe(admin => {
+                if(admin.id)
+                {
+                  this.userss = admin;
+                  this.user_type = "Admin";
+                }
+                else{
+                  this.brokerservice.getBroker()
+                  .subscribe(broker => {
+                    this.userss = broker;
+                    this.user_type = "Broker";
+                  })
+                }
+              })
+            }
+          })
         } else {
           // alert('Wrong Password or Username');
           this.usern = false;
           this.username = undefined;
+          this.errMess = "Please Login!!"
         }
       });
   }

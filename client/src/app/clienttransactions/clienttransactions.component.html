@@ -7,15 +7,15 @@
         {{transaction.type}}
       </div>
       <div class="card-body">
-        <h5 class="card-title"><b>Broker: </b> {{transaction.broker}}</h5>
+        <h5 class="card-title"><b>Broker: </b> {{transaction.broker_id}}</h5>
         <p class="card-text">
           <b>Status: </b> {{transaction.status}}
         </p>
         <p class="card-text">
-          <b>Amount: </b> {{transaction.amount}}
+          <b>Amount: </b> {{transaction.quantity}}
         </p>
         <p class="card-text">
-            <b>Date: </b> {{transaction.date.seconds * 1000 | date:'dd-MM-yyyy h:mm:ss a' }}
+            <b>Date: </b> {{transaction.time_stamp.seconds * 1000 | date:'dd-MM-yyyy h:mm:ss a' }}
           </p>
       </div>
     </div>

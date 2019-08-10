@@ -20,6 +20,8 @@ export class ClientComponent implements OnInit {
   brokers : User[];
   errmsg: string = undefined;
   products: any[];
+  brok1: string;
+  cli1: string;
   constructor(private clientservice: ClientService) { }
 
   ngOnInit() {
@@ -31,6 +33,7 @@ export class ClientComponent implements OnInit {
         .subscribe(user => {
           this.user = user;
           this.client_id = user.id;
+          this.cli1 = user._id;
           console.log(this.user)
           this.clientservice.getProducts()
           .subscribe(products => {
@@ -49,14 +52,21 @@ export class ClientComponent implements OnInit {
       var val = Math.floor(1000 + Math.random() * 9000);
       console.log(val);
       this.id = "TID" + val.toString();
+      console.log(this.brok)
       this.clientservice.getBrokerId(this.brok)
       .subscribe(broker => {
+        console.log(broker);
         this.brok_id = broker.id;
-        this.clientservice.postTransaction(this.brok_id,this.amount,this.type,this.id,this.client_id,this.prod)
+        this.brok1 = broker._id;
+        this.clientservice.postTransaction(this.brok_id,this.amount,this.type,this.id,this.client_id,this.prod,this.brok1,this.cli1)
         .subscribe(product =>  {
-          console.log(product + "Succesfull");
+          console.log(product);
         });
       })
     }
+  }
+  oncl()
+  {
+    console.log("Hii");
   }
 }

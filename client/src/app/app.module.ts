@@ -18,6 +18,11 @@ import { ClientComponent } from './client/client.component';
 import { ClienttransactionsComponent } from './clienttransactions/clienttransactions.component';
 import { BrokertransactionsComponent } from './brokertransactions/brokertransactions.component';
 import { baseURL } from './shared/baseurl';
+import { BrokerComponent } from './broker/broker.component';
+import { BrokerprevioustransactionsComponent } from './brokerprevioustransactions/brokerprevioustransactions.component';
+import { AdminComponent } from './admin/admin.component';
+import { ViewtransactionComponent } from './viewtransaction/viewtransaction.component';
+import { DetailsComponent } from './details/details.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +32,11 @@ import { baseURL } from './shared/baseurl';
     ClientComponent,
     ClienttransactionsComponent,
     BrokertransactionsComponent,
+    BrokerComponent,
+    BrokerprevioustransactionsComponent,
+    AdminComponent,
+    ViewtransactionComponent,
+    DetailsComponent,
     ],
   imports: [
     BrowserModule,

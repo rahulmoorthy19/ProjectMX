@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ProcessHttpmsgService } from './process-httpmsg.service';
+import { ProcessHttpMsgService } from './process-httpmsg.service';
 
-describe('ProcessHttpmsgService', () => {
+describe('ProcessHttpMsgService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ProcessHttpmsgService = TestBed.get(ProcessHttpmsgService);
+    const service: ProcessHttpMsgService = TestBed.get(ProcessHttpMsgService);
     expect(service).toBeTruthy();
   });
 });

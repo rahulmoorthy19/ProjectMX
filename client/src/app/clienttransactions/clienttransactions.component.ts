@@ -3,6 +3,7 @@ import { ClientService } from '../services/client.service';
 import { User } from '../shared/user';
 import { Transaction } from '../shared/transaction';
 import { AuthService } from '../services/auth.service';
+import { BrokerService } from '../services/broker.service';
 
 @Component({
   selector: 'app-clienttransactions',
@@ -12,19 +13,24 @@ import { AuthService } from '../services/auth.service';
 export class ClienttransactionsComponent implements OnInit {
 
   userid: string = undefined;
-  transactions: Transaction[];
-  constructor(private clientservice: ClientService, private authService: AuthService) { }
+  userId: string = undefined;
+  transactions: any[];
+  constructor(private clientservice: ClientService, private authService: AuthService,private brokerservice: BrokerService) { }
 
   ngOnInit() {
     this.authService.getAuthState()
         .subscribe((user) => {
         if (user) {
           this.userid = user.uid;
-          this.clientservice.getTransactions(this.userid)
+          this.clientservice.getClient()
+          .subscribe(client => {
+            this.userId = client.id;
+            this.clientservice.getTransactions(this.userId)
             .subscribe(transactions => {
               this.transactions = transactions;
               console.log(this.transactions);
             })
+          })
           }
       });
   }

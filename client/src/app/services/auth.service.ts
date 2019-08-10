@@ -51,11 +51,11 @@ export class AuthService {
       this.afAuth.auth.signInWithEmailAndPassword(user.username, user.password)
       .then(res => {
         if (this.userId && user_category == "Client") {
-          return this.afs.collection('clients').doc(this.userId).set({name: user.name,email: this.username,bank_name : user.bank_name, stock_balance: user.stock_balance, id:user.id});
+          return this.afs.collection('clients').doc(this.userId).set({name: user.name,email: this.username,bank_name : user.bank_name, stock_balance: user.stock_balance, id:user.id,client_uid: this.userId});
         }
         else if (this.userId && user_category == "Broker")
         {
-          return this.afs.collection('brokers').doc(this.userId).set({name: user.name,email: this.username,bank_name : user.bank_name, stock_balance: user.stock_balance, id:user.id});
+          return this.afs.collection('brokers').doc(this.userId).set({name: user.name,email: this.username,bank_name : user.bank_name, stock_balance: user.stock_balance, id:user.id, blacklisted: false,broker_uid: this.userId});
         }
         else {
           return Promise.reject(new Error('No User Logged In!'));

@@ -27,14 +27,39 @@
                       <span class="nav-link-inner--text">Home</span>
                   </a>
                 </li>
-                <li class="nav-item" *ngIf = "usern">
+                <li class="nav-item" *ngIf = "user_type == 'Client'">
                     <a class="nav-link nav-link-icon" routerLink = "/client">
                         <span class="nav-link-inner--text">Buy/Sell</span>
                     </a>
                 </li>
-                <li class="nav-item" *ngIf = "usern">
+                <li class="nav-item" *ngIf = "user_type == 'Broker' && userss.blacklisted == false">
+                        <a class="nav-link nav-link-icon" routerLink = "/broker">
+                            <span class="nav-link-inner--text">Buy/Sell</span>
+                        </a>
+                </li>
+                <li class="nav-item" *ngIf = "user_type == 'Client'">
                         <a class="nav-link nav-link-icon" routerLink = "/mytransactions">
                             <span class="nav-link-inner--text">My Transactions</span>
+                        </a>
+                </li>
+                <li class="nav-item" *ngIf = "user_type == 'Broker' && userss.blacklisted == false">
+                        <a class="nav-link nav-link-icon" routerLink = "/requestedtransactions">
+                            <span class="nav-link-inner--text">Requested Transactions</span>
+                        </a>
+                </li>
+                <li class="nav-item" *ngIf = "user_type == 'Broker' && userss.blacklisted == false">
+                        <a class="nav-link nav-link-icon" routerLink = "/previoustransactions">
+                            <span class="nav-link-inner--text">Previous Transactions</span>
+                        </a>
+                </li>
+                <li class="nav-item" *ngIf = "user_type == 'Admin'">
+                        <a class="nav-link nav-link-icon" routerLink = "/admin">
+                            <span class="nav-link-inner--text">Set Thresholds</span>
+                        </a>
+                </li>
+                <li class="nav-item" *ngIf = "user_type == 'Admin'">
+                        <a class="nav-link nav-link-icon" routerLink = "/blacklist">
+                            <span class="nav-link-inner--text">View Fraudelent Brokers</span>
                         </a>
                 </li>
               <li class="nav-item" *ngIf="!usern">
@@ -48,7 +73,7 @@
               </a>
             </li>
             <li class="nav-item" *ngIf="usern">
-              <a class="nav-link nav-link-icon" (click)="logOut()" routerLink = "/home" onclick="window.location.reload()">
+              <a class="nav-link nav-link-icon" (click)="logOut()" routerLink = "/home">
                   <span class="nav-link-inner--text">{{userna}}</span>
                   <span class="nav-link-inner--text">Logout</span>
               </a>

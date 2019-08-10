@@ -1,11 +1,11 @@
 export class Transaction{
-    bank_name: string;
-    broker: string;
     broker_id: string;
-    amount: number;
+    quantity: number;
     type: string;
+    product_id: string;
+    tid: string;
+    transaction_type: string;
     status: string;
-    date: Date;
-    user: string;
-    userid: string;
+    time_stamp: Date;
+    client_id: string;
 }

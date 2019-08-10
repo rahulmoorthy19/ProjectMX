@@ -1,0 +1,18 @@
+<br>
+<br>
+<div class="container" style="text-align: center">
+  <h1>Fraudelent Brokers</h1>
+</div>
+<div class="container">
+  <div class="row">
+      <div *ngFor = "let broker of brokers">
+          <h1>{{broker._id}}</h1>
+          <div>
+              <button type="button" [routerLink]="['/detail', broker._id]" class="btn btn-primary my-4">View</button>
+          </div>
+          <div>
+              <button type="button" (click) = "onSubmit(broker._id)" class="btn btn-primary my-4">Blacklist</button>
+          </div>
+      </div>
+  </div>
+</div>

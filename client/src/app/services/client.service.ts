@@ -49,17 +49,15 @@ export class ClientService {
           return { _id, ...data };
         }));
     }
-    postTransaction(broker_id: string, amount: number,type: string,id: string,client_id: string,product_id: string)
+    postTransaction(broker_id: string, amount: number,type: string,id: string,client_id: string,product_id: string,broker_uid: string,client_uid: string)
     {
-      const timestamp = firebase.firestore.FieldValue.serverTimestamp()
-      console.log(timestamp);
-      return this.http.post(baseURL,{'tid': id,'order_id': id,'broker_id': broker_id,'amount': amount,'type': type,'status': "Pending", 'time_stamp': timestamp,'client_id': client_id,'transaction_type': "C",'product_id': product_id})
+      console.log(broker_id,amount,type,id,client_id);
+      return this.http.post(baseURL + 'transactions',{'tid': id,'broker_id': broker_id,'quantity': amount,'type': type,'status': "pending",'client_id': client_id,'transaction_type': "C",'product_id': "PRID001",'broker_uid': broker_uid,'client_uid': client_uid})
       .pipe(catchError(error => this.processHTTPMsgService.handleError(error)));
-      // return this.http.get(baseURL + 'we')
     }
-    getBrokerId(name: string): Observable<User>
+    getBrokerId(id: string): Observable<User>
     {
-      return this.afs.collection<User>('brokers', ref => ref.where('name', '==', name)).snapshotChanges()
+      return this.afs.collection<User>('brokers', ref => ref.where('name', '==', id)).snapshotChanges()
       .pipe(map(actions => {
         return actions.map(action => {
           const data = action.payload.doc.data() as User;
@@ -68,12 +66,23 @@ export class ClientService {
         })[0];
       }));
     }
-    getTransactions(userid: string): Observable<Transaction[]> {
+    getBrokerIdd(id: string): Observable<User>
+    {
+      return this.afs.collection<User>('brokers', ref => ref.where('id', '==', id)).snapshotChanges()
+      .pipe(map(actions => {
+        return actions.map(action => {
+          const data = action.payload.doc.data() as User;
+          const _id = action.payload.doc.id;
+          return { _id, ...data };
+        })[0];
+      }));
+    }
+    getTransactions(userid: string): Observable<any[]> {
       console.log(userid)
-        return this.afs.collection<Transaction>('transactions', ref => ref.where('userid', '==', userid).where('detail', '==', 'New')).snapshotChanges()
+        return this.afs.collection('transactions', ref => ref.where('client_id', '==', userid)).snapshotChanges()
         .pipe(map(actions => {
           return actions.map(action => {
-            const data = action.payload.doc.data() as Transaction;
+            const data = action.payload.doc.data() as any;
             const _id = action.payload.doc.id;
             return { _id, ...data };
           });
