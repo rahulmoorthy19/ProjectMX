@@ -12,7 +12,7 @@ import schedule
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "config.json"
-cred = credentials.Certificate("config.json")
+cred = credentials.Certificate("config_python.json")
 firebase_admin.initialize_app(cred)
 store = firestore.client()
 storageClient = storage.Client()
