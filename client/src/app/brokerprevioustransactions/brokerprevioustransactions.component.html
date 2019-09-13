@@ -1,0 +1,32 @@
+<br>
+<br>
+<div class="container" style="text-align: center" *ngIf = "user.blacklisted == true">
+  <h1>You have been blacklisted</h1>
+</div>
+<div class="row" *ngIf = "user.blacklisted == false">
+  <div class="col-md-3" *ngFor = "let transaction of transactions">
+    <div class="card">
+      <div class="card-header">
+        {{transaction.type}}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><b>Client: </b> {{transaction.client_id}}</h5>
+        <p class="card-text">
+            <b>Product: </b> {{transaction.product_id}}
+        </p>
+        <p class="card-text">
+          <b>Status: </b> {{transaction.status}}
+        </p>
+        <p class="card-text">
+          <b>Amount: </b> {{transaction.quantity}}
+        </p>
+        <!-- <p class="card-text">
+            <b>Date: </b> {{transaction.date.seconds * 1000 | date:'dd-MM-yyyy h:mm:ss a' }}
+        </p> -->
+        <!-- <div class="text-center">
+            <button type="button" (click) = "onSubmit(transaction._id,transaction.type,transaction.user,transaction.quantity, transaction.product_id, transaction.client_id)" class="btn btn-primary my-4">Execute</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
